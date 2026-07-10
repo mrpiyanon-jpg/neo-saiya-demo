@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <title>NEO-SAIYA Vertical Slice Demo v1.2</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main id="game" class="game">
+    <video id="bgVideo" class="bg" src="assets/video/bg.mp4" autoplay muted loop playsinline></video>
+    <div class="darken"></div>
+
+    <section id="startScreen" class="screen start-screen">
+      <div class="logo">NEO-SAIYA</div>
+      <div class="subtitle">THE DIGITAL EXORCIST</div>
+      <button id="startBtn" class="big-btn">START EXORCISM</button>
+      <p class="hint">มือถือ: หมุนจอแนวนอน แล้วแตะ A/W/S/D • คอม: กด A W S D</p>
+    </section>
+
+    <section id="playScreen" class="play-screen hidden">
+      <div id="introOverlay" class="intro-overlay hidden">
+        <div id="introLine1" class="intro-line">PHYSICAL LINK DETECTED</div>
+        <div id="introLine2" class="intro-line">FIREWALL ONLINE</div>
+        <div id="introLine3" class="intro-line danger">VIRUS JAO-THEE FOUND</div>
+        <div id="introLine4" class="intro-line final">BEGIN EXORCISM</div>
+      </div>
+      <header class="hud">
+        <div class="hud-block boss-hp-block">
+          <div class="hud-title">BOSS HP <span id="bossHpText">100%</span></div>
+          <div class="meter"><div id="bossHp" class="meter-fill boss-fill"></div></div>
+        </div>
+        <div class="hud-block stability-block">
+          <div class="hud-title cyan">STABILITY <span id="stabilityText">100%</span></div>
+          <div class="meter"><div id="stability" class="meter-fill stability-fill"></div></div>
+          <div id="combo" class="combo">COMBO x0</div>
+          <div id="comboState" class="combo-state">FIREWALL IDLE</div>
+        </div>
+        <div class="hud-block timer-block">
+          <div class="hud-title">TIME</div>
+          <div id="timer" class="timer">02:36</div>
+        </div>
+        <div id="accuracy" class="acc">ACC 100%</div>
+      </header>
+
+      <img id="boss" class="boss" src="assets/img/boss.png" alt="boss" />
+      <img id="bossHit" class="boss boss-hit hidden" src="assets/img/boss_hit.png" alt="boss hit" />
+      <img class="hand" src="assets/img/hand.png" alt="hand" />
+
+      <div id="lane" class="lane">
+        <div class="lane-line"></div>
+        <div class="lane-glow"></div>
+        <div id="note" class="note hidden">
+          <img id="noteImg" src="assets/img/note_a.png" alt="note" />
+        </div>
+        <div id="gate" class="gate">
+          <img src="assets/img/gate.png" alt="gate" />
+          <div class="hit-text">HIT</div>
+        </div>
+      </div>
+
+      <img id="magic" class="magic hidden" src="assets/img/magic.png" alt="magic" />
+      <div id="glitchOverlay" class="glitch-overlay"></div>
+      <div id="warningText" class="warning-text"></div>
+      <div id="phaseText" class="phase-text"></div>
+      <div id="judgement" class="judgement"></div>
+      <div id="prompt" class="prompt">PRESS <b>A</b></div>
+
+      <nav class="buttons" aria-label="control buttons">
+        <button data-key="A">A</button>
+        <button data-key="W">W</button>
+        <button data-key="S">S</button>
+        <button data-key="D">D</button>
+      </nav>
+    </section>
+
+    <section id="resultScreen" class="screen result-screen hidden">
+      <div class="logo small">EXORCISM COMPLETE</div>
+      <div id="finalRank" class="rank">RANK A</div>
+      <div id="finalStats" class="final-stats"></div>
+      <button id="retryBtn" class="big-btn">RETRY</button>
+    </section>
+
+    <audio id="battleAudio" src="assets/audio/battle.mp3" preload="auto"></audio>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
