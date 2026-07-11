@@ -266,6 +266,7 @@ function loop(now = performance.now()){
 
   updatePrompt(elapsedMs);
 
+  // The song plays to its natural ending unless the neural link collapses.
   if (elapsed >= demoSeconds || stability <= 0 || (nextSpawnIndex >= beatMap.length && activeNotes.length === 0)) {
     endGame();
     return;
