@@ -26,9 +26,7 @@ const introOverlay = $('#introOverlay');
 const warningText = $('#warningText');
 const phaseText = $('#phaseText');
 const handIdle = $('#handIdle');
-const handAttack = $('#handAttack');
-const magicVideo = $('#magicVideo');
-const perfectVideo = $('#perfectVideo');
+const impactBurst = $('#impactBurst');
 
 const PERFECT_FX = {
   A: ['assets/video/perfect_blue.mp4', 'assets/audio/perfect_blue.mp3'],
@@ -392,10 +390,9 @@ function restartVideo(video){
 
 function playTapFx(key){
   // Immediate feedback on every physical/touch input, even WAIT or MISS.
-  hide(handIdle);
-  restartVideo(handAttack);
-  clearTimeout(handAttack.idleTimer);
-  handAttack.idleTimer = setTimeout(() => { hide(handAttack); show(handIdle); }, 2250);
+  handIdle.classList.remove('tap-attack','hit-attack');
+  void handIdle.offsetWidth;
+  handIdle.classList.add('tap-attack');
 
   const sound = hitAudio[key];
   sound.pause();
@@ -422,12 +419,15 @@ function playHitFx(key, label){
   }, 260);
   setTimeout(() => playScreen.classList.remove('screen-hit'), 170);
 
-  restartVideo(magicVideo);
-  if (label === 'PERFECT') {
-    const [videoSrc] = PERFECT_FX[key];
-    if (!perfectVideo.src.endsWith(videoSrc)) perfectVideo.src = videoSrc;
-    restartVideo(perfectVideo);
-  }
+  const colors = {A:'#38bfff',W:'#ff305f',S:'#27ff91',D:'#ffd43b'};
+  handIdle.style.setProperty('--fx', colors[key]);
+  handIdle.classList.remove('tap-attack','hit-attack');
+  void handIdle.offsetWidth;
+  handIdle.classList.add('hit-attack');
+  impactBurst.style.setProperty('--fx', colors[key]);
+  impactBurst.classList.remove('fire');
+  void impactBurst.offsetWidth;
+  impactBurst.classList.add('fire');
 
   if (navigator.vibrate) navigator.vibrate(label === 'PERFECT' ? 35 : 18);
 }

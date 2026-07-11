@@ -48,3 +48,16 @@ body{margin:0;touch-action:none;-webkit-user-select:none;user-select:none;-webki
 .magic-video{z-index:14;opacity:.82}.perfect-video{z-index:19;width:min(86vw,1100px)}
 @media (orientation:portrait){.fx-video{width:112vw}.hand-attack{width:62vw;left:30%;bottom:1%}}
 .version-badge{margin:-16px 0 22px;padding:5px 10px;border:1px solid rgba(0,240,255,.45);border-radius:999px;color:#8ffcff;font-size:11px;letter-spacing:.16em;background:rgba(0,0,0,.38)}
+.hand.tap-attack{animation:handTapAttack .34s cubic-bezier(.2,.8,.25,1)}
+.hand.hit-attack{animation:handHitAttack .5s cubic-bezier(.16,.8,.18,1)}
+.impact-burst{--fx:#00f0ff;position:absolute;z-index:18;left:50%;top:47%;width:20vmin;height:20vmin;transform:translate(-50%,-50%);pointer-events:none;opacity:0}
+.impact-burst:before,.impact-burst:after,.impact-burst i{content:"";position:absolute;inset:0;border:3px solid var(--fx);border-radius:50%;box-shadow:0 0 16px var(--fx),inset 0 0 14px var(--fx)}
+.impact-burst:after{inset:24%;border-width:5px;transform:rotate(45deg);border-radius:18%}
+.impact-burst i{inset:48% -70%;border:0;border-top:3px solid var(--fx);border-radius:0;box-shadow:0 0 14px var(--fx)}
+.impact-burst i:nth-child(2){transform:rotate(60deg)}.impact-burst i:nth-child(3){transform:rotate(-60deg)}
+.impact-burst.fire{opacity:1;animation:burstFade .52s ease-out forwards}.impact-burst.fire:before{animation:ringExpand .52s ease-out}.impact-burst.fire:after{animation:sigilSpin .52s ease-out}
+@keyframes handTapAttack{0%,100%{transform:translateX(-50%) rotate(-2deg)}45%{transform:translate(-42%,-5%) rotate(4deg) scale(1.035)}}
+@keyframes handHitAttack{0%,100%{transform:translateX(-50%) rotate(-2deg)}32%{transform:translate(-34%,-10%) rotate(8deg) scale(1.08)}55%{filter:drop-shadow(0 0 34px var(--fx,#00f0ff)) brightness(1.55)}}
+@keyframes burstFade{0%{opacity:0}15%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(1.8)}}
+@keyframes ringExpand{from{transform:scale(.25);opacity:1}to{transform:scale(1.7);opacity:0}}
+@keyframes sigilSpin{from{transform:rotate(0) scale(.45)}to{transform:rotate(135deg) scale(1.15);opacity:0}}
