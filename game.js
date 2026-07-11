@@ -287,6 +287,7 @@ function updatePrompt(elapsedMs){
 function press(key){
   if (!running) return;
   flashButton(key);
+  playTapFx(key);
   const elapsedMs = performance.now() - startTime;
 
   const candidates = activeNotes.filter(n => !n.judged);
@@ -389,6 +390,20 @@ function restartVideo(video){
   video.hideTimer = setTimeout(() => hide(video), 2200);
 }
 
+function playTapFx(key){
+  // Immediate feedback on every physical/touch input, even WAIT or MISS.
+  hide(handIdle);
+  restartVideo(handAttack);
+  clearTimeout(handAttack.idleTimer);
+  handAttack.idleTimer = setTimeout(() => { hide(handAttack); show(handIdle); }, 2250);
+
+  const sound = hitAudio[key];
+  sound.pause();
+  sound.currentTime = 0;
+  sound.play().catch(() => {});
+  if (navigator.vibrate) navigator.vibrate(16);
+}
+
 function playHitFx(key, label){
   playScreen.classList.remove('screen-hit');
   void playScreen.offsetWidth;
@@ -407,22 +422,12 @@ function playHitFx(key, label){
   }, 260);
   setTimeout(() => playScreen.classList.remove('screen-hit'), 170);
 
-  hide(handIdle);
-  restartVideo(handAttack);
-  clearTimeout(handAttack.idleTimer);
-  handAttack.idleTimer = setTimeout(() => { hide(handAttack); show(handIdle); }, 2250);
-
   restartVideo(magicVideo);
   if (label === 'PERFECT') {
     const [videoSrc] = PERFECT_FX[key];
     if (!perfectVideo.src.endsWith(videoSrc)) perfectVideo.src = videoSrc;
     restartVideo(perfectVideo);
   }
-
-  const sound = hitAudio[key];
-  sound.pause();
-  sound.currentTime = 0;
-  sound.play().catch(() => {});
 
   if (navigator.vibrate) navigator.vibrate(label === 'PERFECT' ? 35 : 18);
 }

@@ -47,3 +47,4 @@ body{margin:0;touch-action:none;-webkit-user-select:none;user-select:none;-webki
 .fx-video{position:absolute;z-index:15;left:50%;top:50%;width:min(72vw,960px);transform:translate(-50%,-50%);object-fit:contain;pointer-events:none;mix-blend-mode:screen;filter:drop-shadow(0 0 24px rgba(0,240,255,.55))}
 .magic-video{z-index:14;opacity:.82}.perfect-video{z-index:19;width:min(86vw,1100px)}
 @media (orientation:portrait){.fx-video{width:112vw}.hand-attack{width:62vw;left:30%;bottom:1%}}
+.version-badge{margin:-16px 0 22px;padding:5px 10px;border:1px solid rgba(0,240,255,.45);border-radius:999px;color:#8ffcff;font-size:11px;letter-spacing:.16em;background:rgba(0,0,0,.38)}
