@@ -74,7 +74,7 @@ body{margin:0;touch-action:none;-webkit-user-select:none;user-select:none;-webki
 .gate{top:calc(52% - 66px)}
 @media (orientation:portrait){.note{top:calc(52% - 119px)}.gate{top:calc(52% - 52px)}}
 @media (orientation:landscape) and (pointer:coarse){
-  .note{top:calc(52% - 74px)}
+  .note{top:calc(52% - 100px)}
   .play-fullscreen-btn{display:block;position:absolute;z-index:31;right:2%;bottom:3%;width:auto;height:34px;padding:0 10px;border-radius:9px;font-size:10px;letter-spacing:.06em;background:rgba(0,0,0,.64)}
 }
 .hand.tap-attack{animation:handTapAttack .34s cubic-bezier(.2,.8,.25,1)}
