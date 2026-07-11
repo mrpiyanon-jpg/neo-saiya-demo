@@ -37,7 +37,7 @@ const PERFECT_FX = {
 const hitAudio = Object.fromEntries(Object.entries(PERFECT_FX).map(([key, value]) => {
   const sound = new Audio(value[1]);
   sound.preload = 'auto';
-  sound.volume = .65;
+  sound.volume = .42;
   return [key, sound];
 }));
 
@@ -68,6 +68,7 @@ let miss = 0;
 let demoSeconds = 156;
 let phaseTwoTriggered = false;
 let gameplayStarted = false;
+let lastAudioGuardAt = 0;
 let travelMs = 980;        // v0.9: faster note travel
 const missLateMs = 430;    // auto MISS after passing the gate
 const earlyIgnoreMs = 520; // too early = WAIT, not punished
@@ -145,6 +146,19 @@ audio.addEventListener('loadedmetadata', () => {
 
 document.addEventListener('visibilitychange', () => {
   if (document.hidden && running) endGame();
+});
+
+function keepBattleAudioAlive(){
+  if (!running || !gameplayStarted || stability <= 0) return;
+  if (audio.paused && audio.currentTime < demoSeconds - .25) {
+    audio.play().catch(() => {});
+  }
+}
+
+audio.addEventListener('pause', () => {
+  if (running && gameplayStarted && stability > 0) {
+    setTimeout(keepBattleAudioAlive, 80);
+  }
 });
 
 function seededRandom(seed){
@@ -230,6 +244,10 @@ function getTargetX(){
 
 function loop(now = performance.now()){
   if (!running || !gameplayStarted) return;
+  if (now - lastAudioGuardAt > 500) {
+    lastAudioGuardAt = now;
+    keepBattleAudioAlive();
+  }
   const elapsedMs = now - startTime;
   const elapsed = elapsedMs / 1000;
   const remaining = Math.max(0, Math.ceil(demoSeconds - elapsed));
@@ -285,6 +303,7 @@ function updatePrompt(elapsedMs){
 
 function press(key){
   if (!running) return;
+  keepBattleAudioAlive();
   flashButton(key);
   playTapFx(key);
   const elapsedMs = performance.now() - startTime;
