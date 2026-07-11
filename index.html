@@ -3,7 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-  <title>NEO-SAIYA Vertical Slice Demo v1.1</title>
+  <meta name="theme-color" content="#02050a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>NEO-SAIYA — The Digital Exorcist</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -14,7 +17,7 @@
     <section id="startScreen" class="screen start-screen">
       <div class="logo">NEO-SAIYA</div>
       <div class="subtitle">THE DIGITAL EXORCIST</div>
-      <button id="startBtn" class="big-btn">START EXORCISM</button>
+      <button id="startBtn" class="big-btn" type="button">START EXORCISM</button>
       <p class="hint">มือถือ: หมุนจอแนวนอน แล้วแตะ A/W/S/D • คอม: กด A W S D</p>
     </section>
 
@@ -44,7 +47,10 @@
 
       <img id="boss" class="boss" src="assets/img/boss.png" alt="boss" />
       <img id="bossHit" class="boss boss-hit hidden" src="assets/img/boss_hit.png" alt="boss hit" />
-      <img class="hand" src="assets/img/hand.png" alt="hand" />
+      <img id="handIdle" class="hand" src="assets/img/hand.png" alt="hand" />
+      <video id="handAttack" class="hand hand-attack hidden" src="assets/video/hand_attack.webm" muted playsinline preload="auto"></video>
+      <video id="magicVideo" class="fx-video magic-video hidden" src="assets/video/magic_effect.mp4" muted playsinline preload="auto"></video>
+      <video id="perfectVideo" class="fx-video perfect-video hidden" muted playsinline preload="auto"></video>
 
       <div id="lane" class="lane">
         <div class="lane-line"></div>
@@ -66,10 +72,10 @@
       <div id="prompt" class="prompt">PRESS <b>A</b></div>
 
       <nav class="buttons" aria-label="control buttons">
-        <button data-key="A">A</button>
-        <button data-key="W">W</button>
-        <button data-key="S">S</button>
-        <button data-key="D">D</button>
+        <button data-key="A" type="button" aria-label="กด A">A</button>
+        <button data-key="W" type="button" aria-label="กด W">W</button>
+        <button data-key="S" type="button" aria-label="กด S">S</button>
+        <button data-key="D" type="button" aria-label="กด D">D</button>
       </nav>
     </section>
 
@@ -77,7 +83,7 @@
       <div class="logo small">EXORCISM COMPLETE</div>
       <div id="finalRank" class="rank">RANK A</div>
       <div id="finalStats" class="final-stats"></div>
-      <button id="retryBtn" class="big-btn">RETRY</button>
+      <button id="retryBtn" class="big-btn" type="button">RETRY</button>
     </section>
 
     <audio id="battleAudio" src="assets/audio/battle.mp3" preload="auto"></audio>

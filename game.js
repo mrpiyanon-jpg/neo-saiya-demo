@@ -25,6 +25,23 @@ const glitchOverlay = $('#glitchOverlay');
 const introOverlay = $('#introOverlay');
 const warningText = $('#warningText');
 const phaseText = $('#phaseText');
+const handIdle = $('#handIdle');
+const handAttack = $('#handAttack');
+const magicVideo = $('#magicVideo');
+const perfectVideo = $('#perfectVideo');
+
+const PERFECT_FX = {
+  A: ['assets/video/perfect_blue.mp4', 'assets/audio/perfect_blue.mp3'],
+  W: ['assets/video/perfect_red.mp4', 'assets/audio/perfect_red.mp3'],
+  S: ['assets/video/perfect_green.mp4', 'assets/audio/perfect_green.mp3'],
+  D: ['assets/video/perfect_yellow.mp4', 'assets/audio/perfect_yellow.mp3']
+};
+const hitAudio = Object.fromEntries(Object.entries(PERFECT_FX).map(([key, value]) => {
+  const sound = new Audio(value[1]);
+  sound.preload = 'auto';
+  sound.volume = .65;
+  return [key, sound];
+}));
 
 const KEYS = ['A', 'W', 'S', 'D'];
 const NOTE_SRC = {
@@ -65,7 +82,10 @@ startBtn.addEventListener('click', startGame);
 retryBtn.addEventListener('click', startGame);
 window.addEventListener('keydown', (e) => {
   const k = e.key.toUpperCase();
-  if (KEYS.includes(k)) press(k);
+  if (KEYS.includes(k)) {
+    e.preventDefault();
+    if (!e.repeat) press(k);
+  }
 });
 document.querySelectorAll('.buttons button').forEach((button) => {
   button.addEventListener('pointerdown', (e) => {
@@ -83,13 +103,20 @@ function startGame(){
   nextSpawnIndex = 0;
   bossHp = 100; stability = 100; combo = 0; maxCombo = 0;
   total = 0; hits = 0; perfect = 0; great = 0; good = 0; miss = 0;
+  cancelAnimationFrame(raf);
+  audio.pause();
   audio.currentTime = 0;
+  travelMs = 980;
   if (Number.isFinite(audio.duration) && audio.duration > 30) demoSeconds = Math.floor(audio.duration);
   buildContinuousBeatMap();
   updateHUD();
   updateGlitch();
   showJudge('', true);
   prompt.innerHTML = 'SYNCING <b>...</b>';
+  // Calling play() directly from the tap/click satisfies mobile Safari's
+  // user-gesture requirement. It remains muted until the intro completes.
+  audio.muted = true;
+  audio.play().catch(() => {});
   playIntroSequence();
 }
 
@@ -107,9 +134,20 @@ async function playIntroSequence(){
   startTime = performance.now();
   running = true;
   gameplayStarted = true;
+  audio.muted = false;
   audio.play().catch(() => {});
   loop();
 }
+
+audio.addEventListener('loadedmetadata', () => {
+  if (Number.isFinite(audio.duration) && audio.duration > 30) {
+    demoSeconds = Math.floor(audio.duration);
+  }
+});
+
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && running) endGame();
+});
 
 function seededRandom(seed){
   let x = Math.sin(seed) * 10000;
@@ -305,7 +343,7 @@ function judge(n, label){
   }
   maxCombo = Math.max(maxCombo, combo);
   showJudge(label, true);
-  playHitFx();
+  playHitFx(n.key, label);
   updateHUD();
   checkBossPhase();
 }
@@ -342,7 +380,16 @@ function showJudge(text, good){
   }
 }
 
-function playHitFx(){
+function restartVideo(video){
+  video.pause();
+  video.currentTime = 0;
+  show(video);
+  video.play().catch(() => {});
+  clearTimeout(video.hideTimer);
+  video.hideTimer = setTimeout(() => hide(video), 2200);
+}
+
+function playHitFx(key, label){
   playScreen.classList.remove('screen-hit');
   void playScreen.offsetWidth;
   playScreen.classList.add('screen-hit');
@@ -359,6 +406,25 @@ function playHitFx(){
     boss.classList.remove('hit-shake');
   }, 260);
   setTimeout(() => playScreen.classList.remove('screen-hit'), 170);
+
+  hide(handIdle);
+  restartVideo(handAttack);
+  clearTimeout(handAttack.idleTimer);
+  handAttack.idleTimer = setTimeout(() => { hide(handAttack); show(handIdle); }, 2250);
+
+  restartVideo(magicVideo);
+  if (label === 'PERFECT') {
+    const [videoSrc] = PERFECT_FX[key];
+    if (!perfectVideo.src.endsWith(videoSrc)) perfectVideo.src = videoSrc;
+    restartVideo(perfectVideo);
+  }
+
+  const sound = hitAudio[key];
+  sound.pause();
+  sound.currentTime = 0;
+  sound.play().catch(() => {});
+
+  if (navigator.vibrate) navigator.vibrate(label === 'PERFECT' ? 35 : 18);
 }
 
 function flashButton(key){
