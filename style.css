@@ -48,9 +48,9 @@ body{margin:0;touch-action:none;-webkit-user-select:none;user-select:none;-webki
 .magic-video{z-index:14;opacity:.82}.perfect-video{z-index:19;width:min(86vw,1100px)}
 @media (orientation:portrait){.fx-video{width:112vw}.hand-attack{width:62vw;left:30%;bottom:1%}}
 .version-badge{margin:-16px 0 22px;padding:5px 10px;border:1px solid rgba(0,240,255,.45);border-radius:999px;color:#8ffcff;font-size:11px;letter-spacing:.16em;background:rgba(0,0,0,.38)}
-.note{top:calc(52% - 56px)}
+.note{top:calc(52% - 144px)}
 .gate{top:calc(52% - 66px)}
-@media (orientation:portrait){.note{top:calc(52% - 46px)}.gate{top:calc(52% - 52px)}}
+@media (orientation:portrait){.note{top:calc(52% - 119px)}.gate{top:calc(52% - 52px)}}
 .hand.tap-attack{animation:handTapAttack .34s cubic-bezier(.2,.8,.25,1)}
 .hand.hit-attack{animation:handHitAttack .5s cubic-bezier(.16,.8,.18,1)}
 .impact-burst{--fx:#00f0ff;position:absolute;z-index:18;left:50%;top:47%;width:20vmin;height:20vmin;transform:translate(-50%,-50%);pointer-events:none;opacity:0}

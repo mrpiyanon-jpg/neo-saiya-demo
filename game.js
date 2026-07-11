@@ -112,9 +112,10 @@ function startGame(){
   updateGlitch();
   showJudge('', true);
   prompt.innerHTML = 'SYNCING <b>...</b>';
-  // Calling play() directly from the tap/click satisfies mobile Safari's
-  // user-gesture requirement. It remains muted until the intro completes.
-  audio.muted = true;
+  // Start audible playback inside the user's click/tap gesture.
+  // Delayed unmuting after the intro is blocked by some mobile browsers.
+  audio.muted = false;
+  audio.volume = .72;
   audio.play().catch(() => {});
   playIntroSequence();
 }
@@ -133,8 +134,7 @@ async function playIntroSequence(){
   startTime = performance.now();
   running = true;
   gameplayStarted = true;
-  audio.muted = false;
-  audio.play().catch(() => {});
+  keepBattleAudioAlive();
   loop();
 }
 
