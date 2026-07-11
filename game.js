@@ -4,6 +4,7 @@ const playScreen = $('#playScreen');
 const resultScreen = $('#resultScreen');
 const startBtn = $('#startBtn');
 const fullscreenBtn = $('#fullscreenBtn');
+const playFullscreenBtn = $('#playFullscreenBtn');
 const retryBtn = $('#retryBtn');
 const audio = $('#battleAudio');
 const gate = $('#gate');
@@ -79,14 +80,16 @@ function hide(el){ el.classList.add('hidden'); }
 function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
 
 startBtn.addEventListener('click', startGame);
-fullscreenBtn?.addEventListener('click', async () => {
+async function enterFullscreen(){
   const root = document.documentElement;
   try {
     if (root.requestFullscreen) await root.requestFullscreen({navigationUI:'hide'});
     else if (root.webkitRequestFullscreen) root.webkitRequestFullscreen();
   } catch (_) {}
   syncMobileViewport();
-});
+}
+fullscreenBtn?.addEventListener('click', enterFullscreen);
+playFullscreenBtn?.addEventListener('click', enterFullscreen);
 retryBtn.addEventListener('click', startGame);
 window.addEventListener('keydown', (e) => {
   const k = e.key.toUpperCase();

@@ -49,6 +49,7 @@ body{margin:0;touch-action:none;-webkit-user-select:none;user-select:none;-webki
 @media (orientation:portrait){.fx-video{width:112vw}.hand-attack{width:62vw;left:30%;bottom:1%}}
 .version-badge{margin:-16px 0 22px;padding:5px 10px;border:1px solid rgba(0,240,255,.45);border-radius:999px;color:#8ffcff;font-size:11px;letter-spacing:.16em;background:rgba(0,0,0,.38)}
 .fullscreen-btn{display:none;margin-bottom:12px;background:linear-gradient(135deg,rgba(0,240,255,.46),rgba(0,90,180,.38))}
+.play-fullscreen-btn{display:none}
 @media (orientation:landscape) and (pointer:coarse){
   body{display:grid;place-items:center;width:var(--visible-width,100dvw);height:var(--visible-height,100dvh)}
   .game{position:relative;width:min(var(--visible-width,100dvw),calc(var(--visible-height,100dvh) * 16 / 9));height:min(var(--visible-height,100dvh),calc(var(--visible-width,100dvw) * 9 / 16));margin:auto}
@@ -72,6 +73,10 @@ body{margin:0;touch-action:none;-webkit-user-select:none;user-select:none;-webki
 .note{top:calc(52% - 144px)}
 .gate{top:calc(52% - 66px)}
 @media (orientation:portrait){.note{top:calc(52% - 119px)}.gate{top:calc(52% - 52px)}}
+@media (orientation:landscape) and (pointer:coarse){
+  .note{top:calc(52% - 74px)}
+  .play-fullscreen-btn{display:block;position:absolute;z-index:31;right:2%;bottom:3%;width:auto;height:34px;padding:0 10px;border-radius:9px;font-size:10px;letter-spacing:.06em;background:rgba(0,0,0,.64)}
+}
 .hand.tap-attack{animation:handTapAttack .34s cubic-bezier(.2,.8,.25,1)}
 .hand.hit-attack{animation:handHitAttack .5s cubic-bezier(.16,.8,.18,1)}
 .impact-burst{--fx:#00f0ff;position:absolute;z-index:18;left:50%;top:47%;width:20vmin;height:20vmin;transform:translate(-50%,-50%);pointer-events:none;opacity:0}
