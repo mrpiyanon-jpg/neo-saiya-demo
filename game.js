@@ -3,6 +3,7 @@ const startScreen = $('#startScreen');
 const playScreen = $('#playScreen');
 const resultScreen = $('#resultScreen');
 const startBtn = $('#startBtn');
+const fullscreenBtn = $('#fullscreenBtn');
 const retryBtn = $('#retryBtn');
 const audio = $('#battleAudio');
 const gate = $('#gate');
@@ -78,6 +79,14 @@ function hide(el){ el.classList.add('hidden'); }
 function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
 
 startBtn.addEventListener('click', startGame);
+fullscreenBtn?.addEventListener('click', async () => {
+  const root = document.documentElement;
+  try {
+    if (root.requestFullscreen) await root.requestFullscreen({navigationUI:'hide'});
+    else if (root.webkitRequestFullscreen) root.webkitRequestFullscreen();
+  } catch (_) {}
+  syncMobileViewport();
+});
 retryBtn.addEventListener('click', startGame);
 window.addEventListener('keydown', (e) => {
   const k = e.key.toUpperCase();
@@ -92,6 +101,20 @@ document.querySelectorAll('.buttons button').forEach((button) => {
     press(button.dataset.key);
   }, {passive:false});
 });
+
+function syncMobileViewport(){
+  const viewport = window.visualViewport;
+  const width = viewport?.width || window.innerWidth;
+  const height = viewport?.height || window.innerHeight;
+  document.documentElement.style.setProperty('--visible-width', `${width}px`);
+  document.documentElement.style.setProperty('--visible-height', `${height}px`);
+}
+
+syncMobileViewport();
+window.addEventListener('resize', syncMobileViewport, {passive:true});
+window.addEventListener('orientationchange', () => setTimeout(syncMobileViewport, 180), {passive:true});
+window.visualViewport?.addEventListener('resize', syncMobileViewport, {passive:true});
+window.visualViewport?.addEventListener('scroll', syncMobileViewport, {passive:true});
 
 function startGame(){
   hide(startScreen); hide(resultScreen); show(playScreen);
